@@ -93,6 +93,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
 alias poweroff="shutdown.exe -s -t 0"
+alias docker=docker.exe
 export GOPROXY=https://goproxy.io
 export GOPATH=$HOME/.go
 export PATH=$PATH:/home/zekin/.cargo/bin
