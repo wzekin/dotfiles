@@ -10,4 +10,5 @@ work_path=$(dirname $(readlink -f $0))
 ln  -dfvs ${work_path}/vim   $HOME/.config/nvim
 ln  -dfvs ${work_path}/pip   $HOME/.config/pip
 ln  -dfvs ${work_path}/yay  $HOME/.config/yay
-ln -fvs ${work_path}/zsh/.zshrc $HOME/.zshrc
+ln  -fvs ${work_path}/zsh/.zshrc $HOME/.zshrc
+ln  -fvs ${work_path}/yarn/.yarnrc $HOME/.yarnrc
