@@ -29,6 +29,5 @@
       // "args": ["-c", "/path/to/your/config.yaml"],
       "filetypes": ["vim", "eruby", "markdown"]
     }
-  },
-  "python.jediEnabled": false
+  }
 }

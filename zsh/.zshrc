@@ -99,3 +99,4 @@ export PATH=$PATH:/home/zekin/.cargo/bin
 export PATH=$PATH:/home/zekin/.yarn/bin
 export PATH=$PATH:/home/zekin/.local/bin
 export PATH=$PATH:/home/zekin/.go/bin
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
