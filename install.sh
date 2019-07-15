@@ -12,3 +12,4 @@ ln  -dfvs ${work_path}/pip   $HOME/.config/pip
 ln  -dfvs ${work_path}/yay  $HOME/.config/yay
 ln  -fvs ${work_path}/zsh/.zshrc $HOME/.zshrc
 ln  -fvs ${work_path}/yarn/.yarnrc $HOME/.yarnrc
+ln  -fvs ${work_path}/cargo/config $HOME/.cargo/config
