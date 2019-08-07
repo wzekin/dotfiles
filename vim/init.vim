@@ -28,32 +28,21 @@ set hidden
 set nrformats=
 
 call plug#begin('~/.vim/plugged')
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'   }
 Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 Plug 'skywind3000/asyncrun.vim'
-
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdcommenter'
 Plug 'itchyny/lightline.vim'
 Plug 'mbbill/undotree'
 Plug 'sbdchd/neoformat'
-Plug 'aperezdc/vim-template'
-
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'leafgarland/typescript-vim'
+Plug 'honza/vim-snippets'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
-
 Plug 'justinmk/vim-sneak'
 Plug 'airblade/vim-gitgutter'
-
 Plug 'kshenoy/vim-signature'
-
-Plug 'godlygeek/tabular',{'for':'markdown'}
-Plug 'plasticboy/vim-markdown'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 call plug#end()
 
 " 基础设置 {{{
@@ -177,6 +166,8 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -218,8 +209,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -265,7 +256,6 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
@@ -275,7 +265,9 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <space>p  :<C-u>CocList files<CR>
+nnoremap <silent> <space>f  :<C-u>CocList mru<CR>
+nnoremap <silent> <space>g  :<C-u>CocList grep<CR>
 " }}}
 "nerdtree {{{
 nmap <leader>ft :NERDTreeToggle<CR>
@@ -285,38 +277,6 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0])&& !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 autocmd VimEnter * if !argc() | NERDTree | endif
 " }}}
-"fzf {{{
-" Mapping selecting mappings
-nmap <leader>fh :History<CR>
-nmap <leader>ff :Files<CR>
-nmap <leader>f/ :Ag<CR>
-nmap <leader>fm :Marks<CR>
-" }}}
-" tagbar {{{
-nmap <leader>tb :TagbarToggle<CR>
-let g:tagbar_left = 1
-let g:tagbar_width = 30
-" }}}
-" neomake {{{
-"call neomake#configure#automake('w')
-"let g:neomake_typescript_enabled_makers = ["tslint"]
-"let g:neomake_logfile = '/tmp/neomake.log'
-" }}}
-" ale {{{
-"let g:ale_linters = {'typescript': ['tslint']}
-"let g:ale_fixers = {
-      "\  '*': ['remove_trailing_lines', 'trim_whitespace'],
-      "\ 'typescript': ['tslint']
-      "\}
-"let g:ale_fix_on_save = 1
-" }}}
-" quickrun {{{
-let g:quickrun_config = {
-      \   "_" : {
-      \       "outputter" : "message",
-      \   },
-      \}
-"}}}
 " neoformat {{{
 
 noremap <leader>bf :Neoformat<CR>
@@ -342,98 +302,18 @@ nmap F <Plug>Sneak_S
 nmap t <Plug>Sneak_t
 nmap T <Plug>Sneak_T
 " }}}
-" vim-gutentags{{{
-" gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
-
-" 所生成的数据文件的名称 "
-let g:gutentags_ctags_tagfile = '.tags'
-
-" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-" 检测 ~/.cache/tags 不存在就新建 "
-if !isdirectory(s:vim_tags)
-  silent! call mkdir(s:vim_tags, 'p')
-endif
-
-" 配置 ctags 的参数 "
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-" }}}
-" vim-template{{{
-let g:templates_directory = '/home/zekin/.vim/templates'
-" }}}
 let g:mkdp_auto_start = 1
-" other{{{
-" NormalMapForEnter: Normal 模式下回车键，对于特定文件类型，则在行尾加分号
-nnoremap <expr> <CR> NormalMapForEnter() . "\<Esc>"
-function! NormalMapForEnter()
-  if &filetype ==# 'quickfix'
-    return "\<CR>"
-  elseif index([
-        \ 'c',
-        \ 'cpp',
-        \ 'cs',
-        \ 'css',
-        \ 'java',
-        \ 'rust',
-        \ 'scss',
-        \ 'typescript',
-        \ 'typescript.tsx'
-        \ ],&filetype) >= 0
-    let l:line = getline('.')
-    if l:line != '' && l:line !~ '^\s\+$' && index([';', '{', '(', '\'], l:line[-1:]) < 0
-      return "A;"
-    else
-      return ""
-    endif
-  else
-    return ""
-  endif
-endfunction
-
-" MapForSemicolonEnter: Insert 模式 ;<CR> 插入 “;” 并换行
-" [[[
-inoremap <expr> ;<CR> MapForSemicolonEnter()
-function! MapForSemicolonEnter()
-    if (getline('.')[-1:] != ';') &&
-        \(index([
-            \ 'c',
-            \ 'cpp',
-            \ 'cs',
-            \ 'css',
-            \ 'java',
-            \ 'rust',
-            \ 'scss',
-            \ 'typescript',
-            \ 'typescript.tsx'
-        \ ],&filetype) >= 0)
-        return "\<End>;\<CR>"
-    else
-        return "\<Esc>o"
-    endif
-endfunction
-" ]]]
-" " InsertMapForEnter: Insert 模式下回车键映射
-" [[[
-inoremap <expr> <CR> InsertMapForEnter()
-function! InsertMapForEnter()
-    " 补全菜单
-    if pumvisible()
-        return "\<C-y>"
-    " 自动缩进大括号 {}
-    elseif strcharpart(getline('.'),getpos('.')[2]-1,1) == '}'
-        return "\<CR>\<Esc>O"
-    elseif strcharpart(getline('.'),getpos('.')[2]-1,2) == '</'
-        return "\<CR>\<Esc>O"
-    else
-        return "\<CR>"
-    endif
-endfunction
-" ]]]
-
-" }}}
+let g:mkdp_open_to_the_world = 1
+let g:mkdp_echo_preview_url = 1
 "
 let g:asyncrun_open = 8
+
+
+func! AuToRUN()
+  exec "w"
+  if &filetype == 'c'
+    exec "AsyncRun gcc % && ./a.out && rm a.out"
+  endif
+endfunc
+
+nmap <leader>r :call AuToRUN()<CR>
