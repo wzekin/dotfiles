@@ -43,6 +43,13 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak'
 Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
+Plug 'HerringtonDarkholme/yats.vim'
+
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-diff'
+Plug 'kana/vim-textobj-entire'
+Plug 'Julian/vim-textobj-brace'
+Plug 'kana/vim-textobj-function'
 call plug#end()
 
 " 基础设置 {{{
@@ -112,9 +119,10 @@ map <Left> <Nop>
 map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
+map h <Nop>
+map l <Nop>
 " kj 替换 Esc
 inoremap jk <Esc>
-imap kj <C-o>
 " Quickly close the current window
 nnoremap <leader>q :q<CR>
 
