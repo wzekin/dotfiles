@@ -1,3 +1,43 @@
+
+call plug#begin('~/.vim/plugged')
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'   }
+Plug 'skywind3000/asyncrun.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'itchyny/lightline.vim'
+Plug 'mbbill/undotree'
+Plug 'sbdchd/neoformat'
+Plug 'honza/vim-snippets'
+Plug 'luochen1990/rainbow'
+Plug 'jiangmiao/auto-pairs'
+Plug 'justinmk/vim-sneak'
+Plug 'airblade/vim-gitgutter'
+Plug 'kshenoy/vim-signature'
+Plug 'HerringtonDarkholme/yats.vim'
+
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-diff'
+Plug 'kana/vim-textobj-entire'
+Plug 'Julian/vim-textobj-brace'
+Plug 'kana/vim-textobj-function'
+
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
+Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
+call plug#end()
+" 基础设置 {{{
 " 定义快捷键的前缀，即<Leader>
 let mapleader = ' '
 let maplocalleader = ' '
@@ -27,32 +67,6 @@ set hidden
 
 set nrformats=
 
-call plug#begin('~/.vim/plugged')
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'   }
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
-Plug 'skywind3000/asyncrun.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
-Plug 'itchyny/lightline.vim'
-Plug 'mbbill/undotree'
-Plug 'sbdchd/neoformat'
-Plug 'honza/vim-snippets'
-Plug 'luochen1990/rainbow'
-Plug 'jiangmiao/auto-pairs'
-Plug 'justinmk/vim-sneak'
-Plug 'airblade/vim-gitgutter'
-Plug 'kshenoy/vim-signature'
-Plug 'HerringtonDarkholme/yats.vim'
-
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-diff'
-Plug 'kana/vim-textobj-entire'
-Plug 'Julian/vim-textobj-brace'
-Plug 'kana/vim-textobj-function'
-call plug#end()
-
-" 基础设置 {{{
 " theme主题
 set background=dark
 set t_Co=256
@@ -71,9 +85,7 @@ set hlsearch
 " 禁止折行
 set nowrap
 " 根据不同的文件类型选择缩进方式
-set foldmethod=syntax
-:autocmd FileType vim set foldmethod=marker
-:autocmd FileType python set foldmethod=indent
+set foldmethod=manual
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 " 设置历史容量
@@ -119,8 +131,6 @@ map <Left> <Nop>
 map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
-map h <Nop>
-map l <Nop>
 " kj 替换 Esc
 inoremap jk <Esc>
 " Quickly close the current window
@@ -147,6 +157,12 @@ nmap <leader>te :tabnew<cr>
 nmap <leader>tp :tabprevious<cr>
 
 nmap <Tab> <C-w>w
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+nnoremap zpr :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>:set foldmethod=manual<CR><CR>
+setlocal foldcolumn=2
+au BufWinLeave * silent mkview
+au BufWinEnter * silent loadview
+
 
 "}}}
 " coc {{{
