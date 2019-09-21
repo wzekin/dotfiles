@@ -23,19 +23,19 @@ Plug 'Julian/vim-textobj-brace'
 Plug 'kana/vim-textobj-function'
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
-Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 " 基础设置 {{{
 " 定义快捷键的前缀，即<Leader>
@@ -67,7 +67,6 @@ set hidden
 
 set nrformats=
 
-" theme主题
 set background=dark
 set t_Co=256
 colorscheme gruvbox

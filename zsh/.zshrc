@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/zekin/.oh-my-zsh"
+  export ZSH="/Users/zekin/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -92,13 +92,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim=nvim
-alias poweroff="shutdown.exe -s -t 0"
-#alias docker=docker.exe
 export GOPROXY=https://goproxy.io
 export GOPATH=$HOME/.go
-export PATH=$PATH:/home/zekin/.cargo/bin
-export PATH=$PATH:/home/zekin/.yarn/bin
-export PATH=$PATH:/home/zekin/.local/bin
-export PATH=$PATH:/home/zekin/.go/bin
+export PATH=$PATH:/Users/zekin/.cargo/bin
+export PATH=$PATH:/Users/zekin/.yarn/bin
+export PATH=$PATH:/Users/zekin/.local/bin
+export PATH=$PATH:/Users/zekin/.go/bin
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
