@@ -1,6 +1,7 @@
 
 call plug#begin('~/.vim/plugged')
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'   }
+Plug 'neovimhaskell/haskell-vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'skywind3000/asyncrun.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/nerdtree'
@@ -23,19 +24,19 @@ Plug 'Julian/vim-textobj-brace'
 Plug 'kana/vim-textobj-function'
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
-Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 " 基础设置 {{{
 " 定义快捷键的前缀，即<Leader>
@@ -53,11 +54,11 @@ filetype indent on
 " 将制表符扩展为空格
 set expandtab
 " 设置编辑时制表符占用空格数
-set tabstop=2
+set tabstop=4
 " 设置格式化时制表符占用空格数
-set shiftwidth=2
+set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
-set softtabstop=2
+set softtabstop=4
 " 关闭兼容模式
 set nocompatible
 " vim 自身命令行模式智能补全
@@ -326,11 +327,20 @@ nmap F <Plug>Sneak_S
 nmap t <Plug>Sneak_t
 nmap T <Plug>Sneak_T
 " }}}
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 0
 let g:mkdp_open_to_the_world = 1
 let g:mkdp_echo_preview_url = 1
 "
 let g:asyncrun_open = 8
+
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 
 func! AuToRUN()
