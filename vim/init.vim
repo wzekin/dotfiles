@@ -4,7 +4,15 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'skywind3000/asyncrun.vim'
 Plug 'flazz/vim-colorschemes'
-Plug 'scrooloose/nerdtree'
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'kristijanhusak/defx-git'
+Plug 'kristijanhusak/defx-icons'
 Plug 'scrooloose/nerdcommenter'
 Plug 'itchyny/lightline.vim'
 Plug 'mbbill/undotree'
@@ -23,7 +31,7 @@ Plug 'kana/vim-textobj-entire'
 Plug 'Julian/vim-textobj-brace'
 Plug 'kana/vim-textobj-function'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 "Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
@@ -54,11 +62,11 @@ filetype indent on
 " 将制表符扩展为空格
 set expandtab
 " 设置编辑时制表符占用空格数
-set tabstop=4
+set tabstop=2
 " 设置格式化时制表符占用空格数
-set shiftwidth=4
+set shiftwidth=2
 " 让 vim 把连续数量的空格视为一个制表符
-set softtabstop=4
+set softtabstop=2
 " 关闭兼容模式
 set nocompatible
 " vim 自身命令行模式智能补全
@@ -86,7 +94,7 @@ set hlsearch
 " 禁止折行
 set nowrap
 " 根据不同的文件类型选择缩进方式
-set foldmethod=manual
+set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 " 设置历史容量
@@ -158,11 +166,6 @@ nmap <leader>te :tabnew<cr>
 nmap <leader>tp :tabprevious<cr>
 
 nmap <Tab> <C-w>w
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-nnoremap zpr :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>:set foldmethod=manual<CR><CR>
-setlocal foldcolumn=2
-au BufWinLeave * silent mkview
-au BufWinEnter * silent loadview
 
 
 "}}}
@@ -192,7 +195,7 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
-                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -294,13 +297,76 @@ nnoremap <silent> <space>p  :<C-u>CocList files<CR>
 nnoremap <silent> <space>f  :<C-u>CocList mru<CR>
 nnoremap <silent> <space>g  :<C-u>CocList grep<CR>
 " }}}
-"nerdtree {{{
-nmap <leader>ft :NERDTreeToggle<CR>
-let g:NERDTreeWinPos = "right"
+"defx {{{
+call defx#custom#option('_', {
+      \ 'winwidth': 30,
+      \ 'split': 'vertical',
+      \ 'direction': 'botright',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': '',
+      \ 'toggle': 1,
+      \ 'resume': 1
+      \ })
+nmap <leader>ft :Defx -columns=git:mark:indent:icons:filename:type<CR>
 "打开文件夹 or 空目录自动打开nerdtree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0])&& !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-autocmd VimEnter * if !argc() | NERDTree | endif
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+  setl nospell
+  setl signcolumn=no
+  setl nonumber
+  nnoremap <silent><buffer><expr> <CR>
+        \ defx#is_directory() ?
+        \ defx#do_action('open_or_close_tree') :
+        \ defx#do_action('drop',)
+  nmap <silent><buffer><expr> <2-LeftMouse>
+        \ defx#is_directory() ?
+        \ defx#do_action('open_or_close_tree') :
+        \ defx#do_action('drop',)
+  nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
+  nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
+  nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
+  nnoremap <silent><buffer><expr> o defx#do_action('open_tree')
+  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
+  nnoremap <silent><buffer><expr> C defx#do_action('copy')
+  nnoremap <silent><buffer><expr> P defx#do_action('paste')
+  nnoremap <silent><buffer><expr> M defx#do_action('rename')
+  nnoremap <silent><buffer><expr> D defx#do_action('remove_trash')
+  nnoremap <silent><buffer><expr> A defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> U defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select')
+  nnoremap <silent><buffer><expr> R defx#do_action('redraw')
+  nnoremap <buffer><silent> [c <Plug>(defx-git-prev)
+  nnoremap <buffer><silent> ]c <Plug>(defx-git-next)
+endfunction
+
+" Defx git
+let g:defx_git#indicators = {
+      \ 'Modified'  : '✹',
+      \ 'Staged'    : '✚',
+      \ 'Untracked' : '✭',
+      \ 'Renamed'   : '➜',
+      \ 'Unmerged'  : '═',
+      \ 'Ignored'   : '☒',
+      \ 'Deleted'   : '✖',
+      \ 'Unknown'   : '?'
+      \ }
+call defx#custom#column('git', 'column_length', 0)
+hi def link Defx_filename_directory NERDTreeDirSlash
+hi def link Defx_git_Modified Special
+hi def link Defx_git_Staged Function
+hi def link Defx_git_Renamed Title
+hi def link Defx_git_Unmerged Label
+hi def link Defx_git_Untracked Tag
+hi def link Defx_git_Ignored Comment
+
+" Defx icons
+" Requires nerd-font, install at https://github.com/ryanoasis/nerd-fonts or
+" brew cask install font-hack-nerd-font
+" Then set non-ascii font to Driod sans mono for powerline in iTerm2
+" disbale syntax highlighting to prevent performence issue
+let g:defx_icons_enable_syntax_highlight = 1
+let g:defx_icons_column_length = 1
 " }}}
 " neoformat {{{
 

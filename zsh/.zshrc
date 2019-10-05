@@ -8,7 +8,7 @@
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="ys"
+ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -94,7 +94,8 @@ source $ZSH/oh-my-zsh.sh
 alias vim=nvim
 #alias poweroff="shutdown.exe -s -t 0"
 #alias docker=docker.exe
-#export GOPROXY=https://goproxy.io
+export GO111MODULE=on
+export GOPROXY=https://goproxy.io
 export GOPATH=$HOME/.go
 export GOPRIVATE=*.byr.moe,*.byr.ac.cn
 export GOSUMDB=off
