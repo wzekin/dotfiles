@@ -38,6 +38,20 @@
           "hlintOn": true
         }
       }
+    },
+     "dart": {
+      "command": "dart", // in windows is dart_language_server.bat
+      "args": ["/opt/dart-sdk/bin/snapshots/analysis_server.dart.snapshot","--lsp"],
+      "filetypes": ["dart"],
+      "initializationOptions": {
+        "closingLabels": true
+      },
+      "settings": {
+        "dart": {
+          "validation": {},
+          "completion": {}
+        }
+      }
     }
   },
   "coc.source.around.enable": false,

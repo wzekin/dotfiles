@@ -1,4 +1,4 @@
-
+" plugin {{{
 call plug#begin('~/.vim/plugged')
 Plug 'neovimhaskell/haskell-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
@@ -30,6 +30,7 @@ Plug 'kana/vim-textobj-diff'
 Plug 'kana/vim-textobj-entire'
 Plug 'Julian/vim-textobj-brace'
 Plug 'kana/vim-textobj-function'
+Plug 'dart-lang/dart-vim-plugin'
 
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 "Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
@@ -46,6 +47,7 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 "Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
+" }}}
 " 基础设置 {{{
 " 定义快捷键的前缀，即<Leader>
 let mapleader = ' '
@@ -143,7 +145,7 @@ map <Down> <Nop>
 " kj 替换 Esc
 inoremap jk <Esc>
 " Quickly close the current window
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q :wqa<CR>
 
 "     Quickly save the current file
 nnoremap <leader>w :w<CR>
@@ -305,11 +307,15 @@ call defx#custom#option('_', {
       \ 'show_ignored_files': 1,
       \ 'buffer_name': '',
       \ 'toggle': 1,
-      \ 'resume': 1
+      \ 'resume': 1,
+      \ 'columns': 'git:mark:indent:icons:filename:type'
       \ })
-nmap <leader>ft :Defx -columns=git:mark:indent:icons:filename:type<CR>
+nmap <leader>ft :Defx<CR>
 "打开文件夹 or 空目录自动打开nerdtree
 autocmd FileType defx call s:defx_my_settings()
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0])&& !exists("s:std_in") | exe 'Defx' argv()[0] | wincmd p | ene | endif
+autocmd VimEnter * if !argc() | Defx | endif
 function! s:defx_my_settings() abort
   setl nospell
   setl signcolumn=no
@@ -369,8 +375,8 @@ let g:defx_icons_enable_syntax_highlight = 1
 let g:defx_icons_column_length = 1
 " }}}
 " neoformat {{{
-
 noremap <leader>bf :Neoformat<CR>
+let g:neoformat_enabled_typescript = ['prettier']
 "}}}
 " lightline {{{
 let g:lightline = {
@@ -393,13 +399,16 @@ nmap F <Plug>Sneak_S
 nmap t <Plug>Sneak_t
 nmap T <Plug>Sneak_T
 " }}}
+" markdown preview {{{
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 0
 let g:mkdp_open_to_the_world = 1
 let g:mkdp_echo_preview_url = 1
-"
+" }}}
+" asyncrun {{{
 let g:asyncrun_open = 8
-
+" }}}
+" haskell{{{
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
 let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
@@ -407,13 +416,17 @@ let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
 let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
 let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-
-
+" }}}
+" AutoRUN {{{
 func! AuToRUN()
   exec "w"
   if &filetype == 'c'
     exec "AsyncRun gcc % && ./a.out && rm a.out"
+  elseif &filetype == 'python'
+    exec "AsyncRun python %"
   endif
 endfunc
 
 nmap <leader>r :call AuToRUN()<CR>
+command! Config :e ~/.config/nvim/init.vim
+" }}}
