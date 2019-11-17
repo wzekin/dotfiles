@@ -19,7 +19,6 @@ Plug 'mbbill/undotree'
 Plug 'sbdchd/neoformat'
 Plug 'honza/vim-snippets'
 Plug 'luochen1990/rainbow'
-Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak'
 Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
@@ -375,8 +374,13 @@ let g:defx_icons_enable_syntax_highlight = 1
 let g:defx_icons_column_length = 1
 " }}}
 " neoformat {{{
-noremap <leader>bf :Neoformat<CR>
+noremap =G :Neoformat<CR>
 let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_typescriptreact = ['prettier']
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 "}}}
 " lightline {{{
 let g:lightline = {
@@ -424,6 +428,8 @@ func! AuToRUN()
     exec "AsyncRun gcc % && ./a.out && rm a.out"
   elseif &filetype == 'python'
     exec "AsyncRun python %"
+  elseif &filetype == 'haskell'
+    exec "AsyncRun runghc %"
   endif
 endfunc
 

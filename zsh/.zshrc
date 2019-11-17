@@ -106,3 +106,7 @@ export PATH=$PATH:/home/zekin/.go/bin
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 export PATH="$HOME/.cabal/bin:${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/bin:$PATH"
+export cabal_helper_libexecdir=~/.local/bin/
+
+
+eval $(thefuck --alias)

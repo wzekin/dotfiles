@@ -39,9 +39,12 @@
         }
       }
     },
-     "dart": {
+    "dart": {
       "command": "dart", // in windows is dart_language_server.bat
-      "args": ["/opt/dart-sdk/bin/snapshots/analysis_server.dart.snapshot","--lsp"],
+      "args": [
+        "/opt/dart-sdk/bin/snapshots/analysis_server.dart.snapshot",
+        "--lsp"
+      ],
       "filetypes": ["dart"],
       "initializationOptions": {
         "closingLabels": true
@@ -56,6 +59,9 @@
   },
   "coc.source.around.enable": false,
   "coc.source.buffer.enable": false,
+  "latex.build.executable": "xelatex",
+  "latex.lint.onSave": true,
+  "latex.build.onSave": true,
   "list.source.files.excludePatterns": [
     "**/.git/*",
     "/tmp/*",
