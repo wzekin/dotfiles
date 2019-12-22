@@ -94,19 +94,20 @@ source $ZSH/oh-my-zsh.sh
 alias vim=nvim
 #alias poweroff="shutdown.exe -s -t 0"
 #alias docker=docker.exe
-export GO111MODULE=on
-export GOPROXY=https://goproxy.io
-export GOPATH=$HOME/.go
-export GOPRIVATE=*.byr.moe,*.byr.ac.cn
-export GOSUMDB=off
 export PATH=$PATH:/home/zekin/.cargo/bin
 export PATH=$PATH:/home/zekin/.yarn/bin
 export PATH=$PATH:/home/zekin/.local/bin
 export PATH=$PATH:/home/zekin/.go/bin
+export PATH=$PATH:/home/zekin/.gem/ruby/2.6.0/bin
+export PATH="$HOME/.cabal/bin:${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/bin:$PATH"
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-export PATH="$HOME/.cabal/bin:${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/bin:$PATH"
 export cabal_helper_libexecdir=~/.local/bin/
-
+export JAVA_HOME=/usr/lib/jvm/default
+export FLUTTER_STORAGE_BASE_URL="https://mirrors.tuna.tsinghua.edu.cn/flutter"
+export PUB_HOSTED_URL="https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
 
 eval $(thefuck --alias)
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

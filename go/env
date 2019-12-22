@@ -1,0 +1,5 @@
+GO111MODULE=on
+GOPATH=/home/zekin/.go
+GOPRIVATE=*.byr.moe,*.byr.ac.cn
+GOPROXY=https://goproxy.io,direct
+GOSUMDB=off

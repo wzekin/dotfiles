@@ -57,3 +57,9 @@ else
   fi
 fi
 ln  -fvs ${work_path}/cargo/config $HOME/.cargo/config
+
+if [ -a $HOME/.config/go ]
+then
+  mv $HOME/.config/go ./backup-config/go
+fi
+ln  -dfvs ${work_path}/go  $HOME/.config/go

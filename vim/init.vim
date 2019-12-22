@@ -1,50 +1,43 @@
 " plugin {{{
 call plug#begin('~/.vim/plugged')
-Plug 'neovimhaskell/haskell-vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+" 系统工具
 Plug 'skywind3000/asyncrun.vim'
-Plug 'flazz/vim-colorschemes'
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
 Plug 'kristijanhusak/defx-icons'
 Plug 'scrooloose/nerdcommenter'
 Plug 'itchyny/lightline.vim'
-Plug 'mbbill/undotree'
 Plug 'sbdchd/neoformat'
-Plug 'honza/vim-snippets'
-Plug 'luochen1990/rainbow'
 Plug 'justinmk/vim-sneak'
-Plug 'airblade/vim-gitgutter'
-Plug 'kshenoy/vim-signature'
-Plug 'HerringtonDarkholme/yats.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ap/vim-buftabline'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'ludovicchabant/vim-gutentags'
 
+"界面美化
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'luochen1990/rainbow'
+Plug 'airblade/vim-gitgutter'
+Plug 'flazz/vim-colorschemes'
+
+" 语言相关
+Plug 'HerringtonDarkholme/yats.vim', {'for': ['typescript', 'typescriptreact']}
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+Plug 'iamcco/markdown-preview.nvim', {'for': 'markdown', 'do': { -> mkdp#util#install() } }
+Plug 'dart-lang/dart-vim-plugin', {'for': 'dart'}
+
+" textobj
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-diff'
 Plug 'kana/vim-textobj-entire'
 Plug 'Julian/vim-textobj-brace'
 Plug 'kana/vim-textobj-function'
-Plug 'dart-lang/dart-vim-plugin'
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
-"Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'iamcco/coc-angular', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'neoclide/coc-tabnine', {'do': 'yarn install --frozen-lockfile'}
+"补全相关
+Plug 'ycm-core/YouCompleteMe'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 " }}}
 " 基础设置 {{{
@@ -54,6 +47,7 @@ let maplocalleader = ' '
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
+set termguicolors
 " 开启语法高亮
 syntax on
 " 根据侦测到的不同类型加载对应的插件
@@ -82,7 +76,8 @@ set background=dark
 set t_Co=256
 colorscheme gruvbox
 " 终端透明
-hi Normal  ctermfg=252 ctermbg=none
+hi! Normal ctermbg=NONE guibg=NONE
+hi! NonText ctermbg=NONE guibg=NONE
 " 总是显示状态栏
 set laststatus=2
 " 开启行号显示
@@ -95,7 +90,7 @@ set hlsearch
 " 禁止折行
 set nowrap
 " 根据不同的文件类型选择缩进方式
-set foldmethod=syntax
+set foldmethod=marker
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 " 设置历史容量
@@ -131,7 +126,7 @@ function! NumberToggle()
   endif
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
-set completeopt=longest,menu
+set completeopt=longest,menuone
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -162,141 +157,26 @@ endif
 nmap <leader>bl :ls<cr>
 nmap <leader>bn :bn<cr>
 nmap <leader>bp :bp<cr>
-nmap <leader>tn :tabnext<cr>
-nmap <leader>te :tabnew<cr>
-nmap <leader>tp :tabprevious<cr>
+nmap <leader>bc :bufdo bwipeout<cr>
 
 nmap <Tab> <C-w>w
 
 
 "}}}
-" coc {{{
-autocmd FileType json syntax match Comment +\/\/.\+$+
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
+" deoplete {{{
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-" Better display for messages
-set cmdheight=2
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
-      \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-"xmap <leader>f  <Plug>(coc-format-selected)
-"nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-
-" Add diagnostic info for https://github.com/itchyny/lightline.vim
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'cocstatus': 'coc#status'
-      \ },
-      \ }
-
-
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocList files<CR>
-nnoremap <silent> <space>f  :<C-u>CocList mru<CR>
-nnoremap <silent> <space>g  :<C-u>CocList grep<CR>
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+let g:ycm_language_server = 
+  \ [ 
+  \   {
+  \     'name': 'texlab',
+  \     'cmdline': [ 'texlab'],
+  \     'filetypes': [ 'tex' ]
+  \   },
+  \ ]
 " }}}
 "defx {{{
 call defx#custom#option('_', {
@@ -309,7 +189,7 @@ call defx#custom#option('_', {
       \ 'resume': 1,
       \ 'columns': 'git:mark:indent:icons:filename:type'
       \ })
-nmap <leader>ft :Defx<CR>
+nmap <leader>p :Defx<CR>
 "打开文件夹 or 空目录自动打开nerdtree
 autocmd FileType defx call s:defx_my_settings()
 autocmd StdinReadPre * let s:std_in=1
@@ -377,22 +257,7 @@ let g:defx_icons_column_length = 1
 noremap =G :Neoformat<CR>
 let g:neoformat_enabled_typescript = ['prettier']
 let g:neoformat_enabled_typescriptreact = ['prettier']
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
-augroup END
-"}}}
-" lightline {{{
-let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified'] ],
-      \ 'right': [ [ 'lineinfo' ],
-      \            [ 'percent' ],
-      \            [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ }
+"autocmd BufWritePre * Neoformat
 "}}}
 " rainbow {{{
 let g:rainbow_active = 1
@@ -435,4 +300,31 @@ endfunc
 
 nmap <leader>r :call AuToRUN()<CR>
 command! Config :e ~/.config/nvim/init.vim
+" }}}
+" fzf {{{
+nmap <leader>f :Files<CR>
+nmap <leader>g :Rg<CR>
+nmap <leader>bt :BTags<CR>
+nmap <leader>t :Tags<CR>
+" }}}
+" gutentags {{{
+" gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+
+" 所生成的数据文件的名称 "
+let g:gutentags_ctags_tagfile = '.tags'
+
+" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+let g:gutentags_ctags_exclude = ['./node_modules/**']
+" 检测 ~/.cache/tags 不存在就新建 "
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+" 配置 ctags 的参数 "
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 " }}}
