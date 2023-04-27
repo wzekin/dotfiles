@@ -1,0 +1,13 @@
+[".antigen.zsh"]
+type = "file"
+url = "https://git.io/antigen"
+refreshPeriod = "168h"
+
+[".config/nvim"]
+type = "git-repo"
+url = "https://github.com/wzekin/vim-config"
+refreshPeriod = "168h"
+[".config/nvim".pull]
+args = ["--ff-only"]
+[".config/nvim".clone]
+args = ["-b", "lua-config"]

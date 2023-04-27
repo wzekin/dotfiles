@@ -1,0 +1,36 @@
+format = '''
+[#](bold blue) [zekin](cyan) [@](bold dimmed white) $hostname [in](bold dimmed white) $directory$all
+$character'''
+
+[hostname]
+ssh_only = false
+ssh_symbol = ''
+style = 'green'
+format = '[$ssh_symbol$hostname]($style)'
+
+[username]
+disabled = true
+style_user = 'cyan'
+show_always = true
+format = '[$user]($style)'
+
+[time]
+disabled = false
+format = '[\[$time\]]($style) '
+style = 'bold dimmed white'
+
+[directory]
+truncate_to_repo = false
+truncation_length = 3
+style = 'yellow'
+
+[character]
+format = '$symbol '
+success_symbol = '[\$](bold red)'
+error_symbol = '[\$](bold red)'
+
+[status]
+disabled = false
+
+[line_break]
+disabled = true

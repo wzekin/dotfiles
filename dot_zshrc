@@ -1,0 +1,40 @@
+source ~/.antigen.zsh
+
+antigen bundle git
+antigen bundle golang
+
+antigen bundle zoxide
+antigen bundle command-not-found
+
+antigen bundle Aloxaf/fzf-tab
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+
+antigen apply
+
+source ~/.zsh-history-substring-search.zsh
+
+# update colors
+eval $(dircolors -b)
+export ZLSCOLORS="${LS_COLORS}"
+zmodload zsh/complist
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+
+alias ls="ls --color=auto"
+
+eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
+
+source $HOME/.gvm/scripts/gvm
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+eval "$(atuin init zsh --disable-up-arrow)"
