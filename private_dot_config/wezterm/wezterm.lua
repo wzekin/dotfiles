@@ -29,10 +29,11 @@ return {
    -- colors = custom,
    color_scheme = "Tokyo Night (Gogh)",
 
+
    -- background
    background = {
       {
-         source = { File = wezterm.config_dir .. "/backdrops/mumu.png" },
+         source = { File = wezterm.config_dir .. "/backdrops/bg3.png" },
       },
       {
          source = { Color = custom.background },
@@ -94,14 +95,14 @@ return {
    -- ssh
    ssh_domains = ssh_domains,
 
-   -- wsl
+
    wsl_domains = {
       {
-         name = "WSL:Ubuntu",
-         distribution = "Ubuntu",
-         username = "kevin",
-         default_cwd = "/home/kevin",
-         default_prog = { "fish" },
+         name = "WSL:Arch",
+         distribution = "Arch",
+         username = "zekin",
+         default_cwd = "/home/zekin",
+         default_prog = { "zsh" },
       },
    },
 }
