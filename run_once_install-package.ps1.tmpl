@@ -1,5 +1,6 @@
 {{ if eq .chezmoi.os "windows" -}}
-scoop install starship zoxide fzf
+scoop install sudo starship zoxide nu go gcc rustup sed nodejs
+sudo New-Item -Force -Path $env:HOMEDRIVE$env:HOMEPATH\\AppData\\Local\\nvim -ItemType SymbolicLink -Value $env:HOMEDRIVE$env:HOMEPATH\\.config\\nvim
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 brew install starship zoxide fzf uutils-coreutils git atuin
