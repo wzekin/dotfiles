@@ -1,3 +1,7 @@
+[credential]
+	helper = manager
+[credential "helperselector"]
+	selected = manager
 [user]
 	email = wzekin@gmail.com
 	name = wzekin
