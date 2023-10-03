@@ -1,0 +1,23 @@
+{{ if eq .chezmoi.os "windows" -}}
+scoop install age 
+if (!(Test-Path "${env:USERPROFILE}\.config\chezmoi\key.txt" -PathType Leaf)) {
+    New-Item -Path "${env:USERPROFILE}\.config\chezmoi" -ItemType Directory -Force
+    chezmoi age decrypt --output "${env:USERPROFILE}\.config\chezmoi\key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+}
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+brew install age
+if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
+    mkdir -p "${HOME}/.config/chezmoi"
+    chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+    chmod 600 "${HOME}/.config/chezmoi/key.txt"
+fi
+{{ else if eq .chezmoi.osRelease.id "arch" -}}
+#!/bin/sh
+sudo pacman -Sy age --noconfirm
+if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
+    mkdir -p "${HOME}/.config/chezmoi"
+    chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+    chmod 600 "${HOME}/.config/chezmoi/key.txt"
+fi
+{{ end -}}
