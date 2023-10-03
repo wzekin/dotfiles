@@ -38,3 +38,4 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 eval "$(atuin init zsh --disable-up-arrow)"
+source /usr/share/nvm/init-nvm.sh
