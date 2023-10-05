@@ -1,10 +1,15 @@
-return {
-   {
-      name = "linode.arch",
-      remote_address = "139.144.54.146",
-      username = "root",
-      ssh_option = {
-         identityfile = [[C:\Users\kevin\.ssh\linode]],
-      },
-   },
-}
+local wezterm = require("wezterm")
+
+local ssh_domains = {}
+
+for host, config in pairs(wezterm.enumerate_ssh_hosts()) do
+   table.insert(ssh_domains, {
+      name = host,
+      remote_address = config.hostname,
+      -- multiplexing = "None",
+      assume_shell = "Posix",
+      default_prog = { "zsh" },
+   })
+end
+
+return ssh_domains
