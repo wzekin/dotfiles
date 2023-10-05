@@ -29,7 +29,6 @@ return {
    -- colors = custom,
    color_scheme = "Tokyo Night (Gogh)",
 
-
    -- background
    background = {
       {
@@ -94,7 +93,6 @@ return {
 
    -- ssh
    ssh_domains = ssh_domains,
-
 
    wsl_domains = {
       {

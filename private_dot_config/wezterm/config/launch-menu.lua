@@ -14,10 +14,6 @@ if get_os_name.get_os_name() == "Windows" then
          args = { "cmd" },
       },
       {
-         label = "Git Bash",
-         args = { "C:\\Users\\kevin\\scoop\\apps\\git\\current\\bin\\bash.exe" },
-      },
-      {
          label = "Nushell",
          args = { "nu" },
       },
@@ -28,8 +24,7 @@ if get_os_name.get_os_name() == "Windows" then
    }
 else
    launch_menu = {
-      { label = "bash", args = { "/usr/bin/bash" } },
-      { label = "fish", args = { "/usr/bin/fish" } },
+      { label = "zsh", args = { "/usr/bin/zsh" } },
    }
 end
 
