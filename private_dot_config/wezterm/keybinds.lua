@@ -7,16 +7,11 @@ local utils = require("utils")
 --- keybinds
 ---------------------------------------------------------------
 M.tmux_keybinds = {
+	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ShowLauncher },
 	{ key = "w", mods = "CTRL", action = act({ CloseCurrentTab = { confirm = true } }) },
 	{ key = "n", mods = "CMD", action = act({ SpawnTab = "CurrentPaneDomain" }) },
 	{ key = "Tab", mods = "CTRL|SHIFT", action = act({ ActivateTabRelative = -1 }) },
 	{ key = "Tab", mods = "CTRL", action = act({ ActivateTabRelative = 1 }) },
-	{
-		key = "k",
-		mods = "ALT|CTRL",
-		action = act.Multiple({ act.CopyMode("ClearSelectionMode"), act.ActivateCopyMode, act.ClearSelection }),
-	},
-	{ key = "j", mods = "CMD|CTRL", action = act({ PasteFrom = "PrimarySelection" }) },
 	{ key = "1", mods = "CMD", action = act({ ActivateTab = 0 }) },
 	{ key = "2", mods = "CMD", action = act({ ActivateTab = 1 }) },
 	{ key = "3", mods = "CMD", action = act({ ActivateTab = 2 }) },

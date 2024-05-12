@@ -1,3 +1,5 @@
+local wezterm = require("wezterm")
+
 local M = {}
 
 function M.basename(s)
@@ -39,8 +41,7 @@ end
 
 function M.convert_home_dir(path)
 	local cwd = path
-	local home = os.getenv("HOME")
-	cwd = cwd:gsub("^" .. home .. "/", "~/")
+	cwd = cwd:gsub("^" .. wezterm.home_dir .. "/", "~/")
 	if cwd == "" then
 		return path
 	end

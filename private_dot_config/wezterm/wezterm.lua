@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local utils = require("utils")
 local keybinds = require("keybinds")
+local background = require("background")
 local scheme = wezterm.get_builtin_color_schemes()["nord"]
 local gpus = wezterm.gui.enumerate_gpus()
 require("on")
@@ -8,6 +9,10 @@ require("on")
 -- /etc/ssh/sshd_config
 -- AcceptEnv TERM_PROGRAM_VERSION COLORTERM TERM TERM_PROGRAM WEZTERM_REMOTE_PANE
 -- sudo systemctl reload sshd
+-- Reload the configuration every hour to upload backgrounds
+wezterm.time.call_after(3600, function()
+	wezterm.reload_configuration()
+end)
 
 ---------------------------------------------------------------
 --- functions
@@ -45,23 +50,25 @@ local function create_ssh_domain_from_ssh_config(ssh_domains)
 	return { ssh_domains = ssh_domains }
 end
 
+local local_config = {}
+
 --- load local_config
 -- Write settings you don't want to make public, such as ssh_domains
-package.path = os.getenv("HOME") .. "/.local/share/wezterm/?.lua;" .. package.path
-local function load_local_config(module)
-	local m = package.searchpath(module, package.path)
-	if m == nil then
-		return {}
-	end
-	return dofile(m)
-	-- local ok, _ = pcall(require, "local")
-	-- if not ok then
-	-- 	return {}
-	-- end
-	-- return require("local")
-end
+-- package.path = wezterm.home_dir .. "/.local/share/wezterm/?.lua;" .. package.path
+-- local function load_local_config(module)
+-- 	local m = package.searchpath(module, package.path)
+-- 	if m == nil then
+-- 		return {}
+-- 	end
+-- 	return dofile(m)
+-- 	-- local ok, _ = pcall(require, "local")
+-- 	-- if not ok then
+-- 	-- 	return {}
+-- 	-- end
+-- 	-- return require("local")
+-- end
 
-local local_config = load_local_config("local")
+-- local local_config = load_local_config("local")
 
 -- local local_config = {
 -- 	ssh_domains = {
@@ -84,7 +91,7 @@ local config = {
 	-- font = wezterm.font("Cica"),
 	-- font_size = 10.0,
 	font = wezterm.font("Cascadia Code"),
-	font_size = 16,
+	font_size = 13,
 	-- cell_width = 1.1,
 	-- line_height = 1.1,
 	-- font_rules = {
@@ -112,7 +119,7 @@ local config = {
 	-- https://github.com/wez/wezterm/issues/1772
 	-- enable_wayland = true,
 	color_scheme = "Catppuccin Macchiato",
-	color_scheme_dirs = { os.getenv("HOME") .. "/.config/wezterm/colors/" },
+	color_scheme_dirs = { wezterm.home_dir .. "/.config/wezterm/colors/" },
 	hide_tab_bar_if_only_one_tab = false,
 	adjust_window_size_when_changing_font_size = false,
 	selection_word_boundary = " \t\n{}[]()\"'`,;:│=&!%",
@@ -154,6 +161,16 @@ local config = {
 	-- https://github.com/wez/wezterm/issues/2756
 	webgpu_preferred_adapter = gpus[1],
 	front_end = "OpenGL",
+
+	background = {
+		background.random_bk(),
+		{
+			source = { Color = "#1f1f28" },
+			height = "100%",
+			width = "100%",
+			opacity = 0.90,
+		},
+	},
 }
 
 for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
