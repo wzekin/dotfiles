@@ -4,7 +4,7 @@ local M = {}
 
 function M.random_bk()
 	local last_file = wezterm.GLOBAL.last_file
-	local files = wezterm.glob(wezterm.config_dir .. "/backgrounds/*.png")
+	local files = wezterm.glob(wezterm.config_dir .. "/backgrounds/*.jpg")
 
 	if #files == 0 then
 		return {}
