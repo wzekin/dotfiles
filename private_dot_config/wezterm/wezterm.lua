@@ -9,8 +9,10 @@ require("on")
 -- /etc/ssh/sshd_config
 -- AcceptEnv TERM_PROGRAM_VERSION COLORTERM TERM TERM_PROGRAM WEZTERM_REMOTE_PANE
 -- sudo systemctl reload sshd
+
 -- Reload the configuration every hour to upload backgrounds
-wezterm.time.call_after(3600, function()
+local time = require("math").random(3000, 7000)
+wezterm.time.call_after(time, function()
 	wezterm.reload_configuration()
 end)
 
@@ -91,7 +93,7 @@ local config = {
 	-- font = wezterm.font("Cica"),
 	-- font_size = 10.0,
 	font = wezterm.font("Cascadia Code"),
-	font_size = 13,
+	font_size = 15,
 	-- cell_width = 1.1,
 	-- line_height = 1.1,
 	-- font_rules = {
