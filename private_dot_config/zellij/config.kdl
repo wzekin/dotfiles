@@ -1,0 +1,122 @@
+default_shell "/bin/zsh"
+
+// 默认布局
+default_layout "zuolan"
+
+// 无箭头字体
+// simplified_ui true
+
+// 显示边框
+pane_frames false
+
+// 缓冲区行数
+scroll_buffer_size 10000
+
+// 鼠标选择和选择即复制, 按住 shift 使用终端原生选词
+copy_on_select true
+mouse_mode true
+
+// 镜像会话
+mirror_session true
+
+// 默认模式
+default_mode "locked"
+
+// 主题
+theme "nord"
+themes {
+   nord {
+        fg 216 222 233
+        bg 46 52 64
+        black 64 67 77
+        red 191 97 106
+        green 163 190 140
+        yellow 235 203 139
+        blue 129 161 193
+        magenta 180 142 173
+        cyan 136 192 208
+        white 229 233 240
+        orange 208 135 112
+    }
+}
+
+// 自定义快捷键
+keybinds {
+
+    pane clear-defaults=true {}
+    resize clear-defaults=true {}
+    move clear-defaults=true {}
+    session clear-defaults=true {}
+    scroll clear-defaults=true {}
+    tmux clear-defaults=true {}
+    renamepane clear-defaults=true {}
+    tab clear-defaults=true {
+        bind "Enter" { Write 13; SwitchToMode "locked"; }
+        bind "Esc" { Write 27; SwitchToMode "locked"; }
+        bind "Ctrl s" { SwitchToMode "locked"; }
+        bind "]" { GoToNextTab; }
+        bind "[" { GoToPreviousTab; }
+    }
+    locked clear-defaults=true {
+        bind "Ctrl s" { SwitchToMode "normal"; }
+    }
+    search clear-defaults=true {
+        // 搜索上一个
+        bind "p" { SearchToggleOption "CaseSensitivity"; Search "up"; }
+        // 搜索下一个
+        bind "n" { SearchToggleOption "CaseSensitivity"; Search "down"; }
+        // 退出搜索
+        bind "Ctrl s" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
+    }
+    entersearch clear-defaults=true {
+        // 输入搜索关键词之后, 按下回车进入搜索模式
+        bind "Enter" { SwitchToMode "Search"; }
+        // 退出搜索
+        bind "Ctrl s" "Ctrl d" "Esc" { SwitchToMode "locked"; }
+    }
+    renametab clear-defaults=true {
+        // 改标签名称后返回锁定模式
+        bind "Ctrl s" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
+    }
+    normal clear-defaults=true {
+        bind "Enter" { Write 13; SwitchToMode "locked"; }
+        bind "Esc" { Write 27; SwitchToMode "locked"; }
+        bind "Ctrl s" { SwitchToMode "locked"; }
+        // 关闭当前焦点区域
+        bind "x" { CloseFocus; SwitchToMode "locked"; }
+        // 上一页/下一页
+        bind "Tab" { ToggleTab; SwitchToMode "locked"; }
+        bind "]" { GoToNextTab; SwitchToMode "tab"; }
+        bind "[" { GoToPreviousTab; SwitchToMode "tab"; }
+        // 新建标签页
+        bind "n" { NewTab; SwitchToMode "locked"; }
+        // 页内移动焦点
+        bind "h" { MoveFocus "Left"; SwitchToMode "locked"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "locked"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "locked"; }
+        bind "j" { MoveFocus "Down"; SwitchToMode "locked"; }
+        // 页内交换区域
+        bind "Alt h" { MovePane "Left"; SwitchToMode "locked"; }
+        bind "Alt l" { MovePane "Right"; SwitchToMode "locked"; }
+        bind "Alt k" { MovePane "Up"; SwitchToMode "locked"; }
+        bind "Alt j" { MovePane "Down"; SwitchToMode "locked"; }
+        // 分屏
+        bind "\\" { NewPane "Right"; SwitchToMode "locked"; }
+        bind "-" { NewPane "Down"; SwitchToMode "locked"; }
+        // 调整分屏大小
+        bind "Left" { Resize "Left"; }
+        bind "Right" { Resize "Right"; }
+        bind "Up" { Resize "Up"; }
+        bind "Down" { Resize "Down"; }
+        // 同步所有分屏
+        bind "`" { ToggleActiveSyncTab; SwitchToMode "locked"; }
+        // 重命名标签页
+        bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
+        // 浮动分屏
+        bind "Space" { ToggleFloatingPanes; SwitchToMode "locked"; }
+        // 搜索模式
+        bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        // 放大分屏
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+    }
+}
