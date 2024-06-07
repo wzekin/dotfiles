@@ -53,12 +53,13 @@ keybinds {
     tab clear-defaults=true {
         bind "Enter" { Write 13; SwitchToMode "locked"; }
         bind "Esc" { Write 27; SwitchToMode "locked"; }
-        bind "Ctrl s" { SwitchToMode "locked"; }
-        bind "]" { GoToNextTab; }
-        bind "[" { GoToPreviousTab; }
+        bind "Alt d" { SwitchToMode "locked"; }
+        bind "n" { GoToNextTab; }
+        bind "p" { GoToPreviousTab; }
     }
     locked clear-defaults=true {
-        bind "Ctrl s" { SwitchToMode "normal"; }
+        bind "Alt d" { SwitchToMode "normal"; }
+        bind "Alt t" { SwitchToMode "tab"; }
     }
     search clear-defaults=true {
         // 搜索上一个
@@ -66,30 +67,32 @@ keybinds {
         // 搜索下一个
         bind "n" { SearchToggleOption "CaseSensitivity"; Search "down"; }
         // 退出搜索
-        bind "Ctrl s" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
+        bind "Alt d" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
     }
     entersearch clear-defaults=true {
         // 输入搜索关键词之后, 按下回车进入搜索模式
         bind "Enter" { SwitchToMode "Search"; }
         // 退出搜索
-        bind "Ctrl s" "Ctrl d" "Esc" { SwitchToMode "locked"; }
+        bind "Alt d" "Ctrl d" "Esc" { SwitchToMode "locked"; }
     }
     renametab clear-defaults=true {
         // 改标签名称后返回锁定模式
-        bind "Ctrl s" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
+        bind "Alt d" "Ctrl d" "Esc" "Enter" { SwitchToMode "locked"; }
     }
     normal clear-defaults=true {
         bind "Enter" { Write 13; SwitchToMode "locked"; }
         bind "Esc" { Write 27; SwitchToMode "locked"; }
-        bind "Ctrl s" { SwitchToMode "locked"; }
+        bind "Alt d" { SwitchToMode "locked"; }
+        bind "Alt t" { SwitchToMode "tab"; }
         // 关闭当前焦点区域
         bind "x" { CloseFocus; SwitchToMode "locked"; }
         // 上一页/下一页
         bind "Tab" { ToggleTab; SwitchToMode "locked"; }
-        bind "]" { GoToNextTab; SwitchToMode "tab"; }
-        bind "[" { GoToPreviousTab; SwitchToMode "tab"; }
         // 新建标签页
-        bind "n" { NewTab; SwitchToMode "locked"; }
+        bind "e" { NewTab; SwitchToMode "locked"; }
+        // 移动标签页
+        bind "n" { GoToNextTab; SwitchToMode "locked"; }
+        bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
         // 页内移动焦点
         bind "h" { MoveFocus "Left"; SwitchToMode "locked"; }
         bind "l" { MoveFocus "Right"; SwitchToMode "locked"; }
