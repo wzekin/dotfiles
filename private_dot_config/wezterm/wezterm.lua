@@ -10,6 +10,18 @@ require("on")
 -- AcceptEnv TERM_PROGRAM_VERSION COLORTERM TERM TERM_PROGRAM WEZTERM_REMOTE_PANE
 -- sudo systemctl reload sshd
 
+local is_linux = function()
+	return wezterm.target_triple:find("linux") ~= nil
+end
+
+local is_darwin = function()
+	return wezterm.target_triple:find("darwin") ~= nil
+end
+
+local is_win = function()
+	return wezterm.target_triple:find("windows") ~= nil
+end
+
 -- Reload the configuration every hour to upload backgrounds
 local time = require("math").random(3000, 7000)
 wezterm.time.call_after(time, function()
@@ -52,40 +64,31 @@ local function create_ssh_domain_from_ssh_config(ssh_domains)
 	return { ssh_domains = ssh_domains }
 end
 
-local local_config = {}
-
---- load local_config
+---- load local_config
 -- Write settings you don't want to make public, such as ssh_domains
--- package.path = wezterm.home_dir .. "/.local/share/wezterm/?.lua;" .. package.path
--- local function load_local_config(module)
--- 	local m = package.searchpath(module, package.path)
--- 	if m == nil then
--- 		return {}
--- 	end
--- 	return dofile(m)
--- 	-- local ok, _ = pcall(require, "local")
--- 	-- if not ok then
--- 	-- 	return {}
--- 	-- end
--- 	-- return require("local")
--- end
+package.path = wezterm.home_dir .. "/.local/share/wezterm/?.lua;" .. package.path
+local function load_local_config(module)
+	local m = package.searchpath(module, package.path)
+	if m == nil then
+		return {}
+	end
+	return dofile(m)
+	-- local ok, _ = pcall(require, "local")
+	-- if not ok then
+	-- 	return {}
+	-- end
+	-- return require("local")
+end
 
--- local local_config = load_local_config("local")
+local local_config = load_local_config("local")
 
--- local local_config = {
--- 	ssh_domains = {
--- 		{
--- 			-- This name identifies the domain
--- 			name = "my.server",
--- 			-- The address to connect to
--- 			remote_address = "192.168.8.31",
--- 			-- The username to use on the remote host
--- 			username = "katayama",
--- 		},
--- 	},
--- }
--- return local_config
+local default_prog = nil
 
+if is_win() then
+	default_prog = {"nu.exe"}
+else
+	default_prog = {"zsh"}
+end
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
@@ -93,6 +96,7 @@ local config = {
 	-- font = wezterm.font("Cica"),
 	-- font_size = 10.0,
 	font = wezterm.font("Cascadia Code"),
+	default_prog = default_prog,
 	font_size = 15,
 	-- cell_width = 1.1,
 	-- line_height = 1.1,
