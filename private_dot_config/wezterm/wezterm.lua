@@ -126,7 +126,7 @@ local config = {
 	-- enable_wayland = true,
 	color_scheme = "Catppuccin Macchiato",
 	color_scheme_dirs = { wezterm.home_dir .. "/.config/wezterm/colors/" },
-	hide_tab_bar_if_only_one_tab = false,
+	hide_tab_bar_if_only_one_tab = true,
 	adjust_window_size_when_changing_font_size = false,
 	selection_word_boundary = " \t\n{}[]()\"'`,;:│=&!%",
 	window_padding = {
@@ -168,15 +168,7 @@ local config = {
 	webgpu_preferred_adapter = gpus[1],
 	front_end = "OpenGL",
 
-	background = {
-		background.random_bk(),
-		{
-			source = { Color = "#1f1f28" },
-			height = "100%",
-			width = "100%",
-			opacity = 0.90,
-		},
-	},
+	background = background.gif(),
 }
 
 for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do

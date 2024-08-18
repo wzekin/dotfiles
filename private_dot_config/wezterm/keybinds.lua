@@ -5,39 +5,10 @@ local utils = require("utils")
 
 ---------------------------------------------------------------
 --- keybinds
----------------------------------------------------------------
-M.tmux_keybinds = {
-	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action.ShowLauncher },
-	{ key = "w", mods = "CTRL", action = act({ CloseCurrentTab = { confirm = true } }) },
-	{ key = "n", mods = "CMD", action = act({ SpawnTab = "CurrentPaneDomain" }) },
-	{ key = "Tab", mods = "CTRL|SHIFT", action = act({ ActivateTabRelative = -1 }) },
-	{ key = "Tab", mods = "CTRL", action = act({ ActivateTabRelative = 1 }) },
-	{ key = "1", mods = "CMD", action = act({ ActivateTab = 0 }) },
-	{ key = "2", mods = "CMD", action = act({ ActivateTab = 1 }) },
-	{ key = "3", mods = "CMD", action = act({ ActivateTab = 2 }) },
-	{ key = "4", mods = "CMD", action = act({ ActivateTab = 3 }) },
-	{ key = "5", mods = "CMD", action = act({ ActivateTab = 4 }) },
-	{ key = "6", mods = "CMD", action = act({ ActivateTab = 5 }) },
-	{ key = "7", mods = "CMD", action = act({ ActivateTab = 6 }) },
-	{ key = "8", mods = "CMD", action = act({ ActivateTab = 7 }) },
-	{ key = "9", mods = "CMD", action = act({ ActivateTab = 8 }) },
-	{ key = "-", mods = "CMD", action = act({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
-	{ key = "\\", mods = "CMD", action = act({ SplitHorizontal = { domain = "CurrentPaneDomain" } }) },
-	{ key = "h", mods = "CMD|SHIFT", action = act({ ActivatePaneDirection = "Left" }) },
-	{ key = "l", mods = "CMD|SHIFT", action = act({ ActivatePaneDirection = "Right" }) },
-	{ key = "k", mods = "CMD|SHIFT", action = act({ ActivatePaneDirection = "Up" }) },
-	{ key = "j", mods = "CMD|SHIFT", action = act({ ActivatePaneDirection = "Down" }) },
-	{ key = "h", mods = "CMD|SHIFT|CTRL", action = act({ AdjustPaneSize = { "Left", 1 } }) },
-	{ key = "l", mods = "CMD|SHIFT|CTRL", action = act({ AdjustPaneSize = { "Right", 1 } }) },
-	{ key = "k", mods = "CMD|SHIFT|CTRL", action = act({ AdjustPaneSize = { "Up", 1 } }) },
-	{ key = "j", mods = "CMD|SHIFT|CTRL", action = act({ AdjustPaneSize = { "Down", 1 } }) },
-	{ key = "Enter", mods = "CMD", action = "QuickSelect" },
-	{ key = "/", mods = "CMD", action = act.Search("CurrentSelectionOrEmptyString") },
-}
 
 M.default_keybinds = {
-	{ key = "c", mods = "CTRL|SHIFT", action = act({ CopyTo = "Clipboard" }) },
-	{ key = "v", mods = "CTRL|SHIFT", action = act({ PasteFrom = "Clipboard" }) },
+	{ key = "c", mods = "ALT", action = act({ CopyTo = "Clipboard" }) },
+	{ key = "v", mods = "ALT", action = act({ PasteFrom = "Clipboard" }) },
 	{ key = "Insert", mods = "SHIFT", action = act({ PasteFrom = "PrimarySelection" }) },
 	{ key = "=", mods = "CTRL", action = "ResetFontSize" },
 	{ key = "+", mods = "CTRL|SHIFT", action = "IncreaseFontSize" },
@@ -47,8 +18,6 @@ M.default_keybinds = {
 	{ key = "b", mods = "CMD", action = act({ ScrollByPage = -1 }) },
 	{ key = "f", mods = "CMD", action = act({ ScrollByPage = 1 }) },
 	{ key = "z", mods = "CMD", action = "ReloadConfiguration" },
-	{ key = "z", mods = "CMD|SHIFT", action = act({ EmitEvent = "toggle-tmux-keybinds" }) },
-	{ key = "e", mods = "CMD", action = act({ EmitEvent = "trigger-nvim-with-scrollback" }) },
 	{ key = "a", mods = "CMD", action = wezterm.action.ShowLauncher },
 	{ key = " ", mods = "CMD", action = wezterm.action.ShowTabNavigator },
 	{ key = "d", mods = "CMD|SHIFT", action = wezterm.action.ShowDebugOverlay },
@@ -93,7 +62,7 @@ M.default_keybinds = {
 }
 
 function M.create_keybinds()
-	return utils.merge_lists(M.default_keybinds, M.tmux_keybinds)
+	return M.default_keybinds
 end
 
 M.key_tables = {
