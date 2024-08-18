@@ -51,11 +51,22 @@ keybinds {
     tmux clear-defaults=true {}
     renamepane clear-defaults=true {}
     tab clear-defaults=true {
-        bind "Enter" { Write 13; SwitchToMode "locked"; }
-        bind "Esc" { Write 27; SwitchToMode "locked"; }
+        bind "Enter" { SwitchToMode "locked"; }
+        bind "Esc" { SwitchToMode "locked"; }
         bind "Alt d" { SwitchToMode "locked"; }
         bind "n" { GoToNextTab; }
         bind "p" { GoToPreviousTab; }
+
+        bind "1" { GoToTab 1; SwitchToMode "locked";}
+        bind "2" { GoToTab 2; SwitchToMode "locked";}
+        bind "3" { GoToTab 3; SwitchToMode "locked";}
+        bind "4" { GoToTab 4; SwitchToMode "locked";}
+        bind "5" { GoToTab 5; SwitchToMode "locked";}
+        bind "6" { GoToTab 6; SwitchToMode "locked";}
+        bind "7" { GoToTab 7; SwitchToMode "locked";}
+        bind "8" { GoToTab 8; SwitchToMode "locked";}
+        bind "9" { GoToTab 9; SwitchToMode "locked";}
+        bind "0" { GoToTab 10; SwitchToMode "locked";}
     }
     locked clear-defaults=true {
         bind "Alt d" { SwitchToMode "normal"; }
@@ -89,7 +100,12 @@ keybinds {
         // 上一页/下一页
         bind "Tab" { ToggleTab; SwitchToMode "locked"; }
         // 新建标签页
-        bind "e" { NewTab; SwitchToMode "locked"; }
+        bind "e" { 
+            NewTab {
+                 layout "zuolan"
+            }; 
+            SwitchToMode "locked"; 
+        }
         // 移动标签页
         bind "n" { GoToNextTab; SwitchToMode "locked"; }
         bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
@@ -111,6 +127,10 @@ keybinds {
         bind "Right" { Resize "Right"; }
         bind "Up" { Resize "Up"; }
         bind "Down" { Resize "Down"; }
+        bind "Alt Left" { Resize "Decrease Left"; }
+        bind "Alt Right" { Resize "Decrease Right"; }
+        bind "Alt Up" { Resize "Decrease Up"; }
+        bind "Alt Down" { Resize "Decrease Down"; }
         // 同步所有分屏
         bind "`" { ToggleActiveSyncTab; SwitchToMode "locked"; }
         // 重命名标签页
