@@ -1,3 +1,27 @@
+export EDITOR=nvim
+export GOPATH=$HOME/go
+export PATH=$PATH:/opt/homebrew/bin
+export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:$HOME/.local/bin
+#export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+#export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
+export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+export ZVM_VI_ESCAPE_BINDKEY=jk
+
+# zvm
+function zvm_after_init() {
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+}
+# zvm end
+
+
 source ~/.antigen.zsh
 
 antigen bundle git
@@ -15,8 +39,8 @@ antigen bundle jeffreytse/zsh-vi-mode
 
 antigen apply
 
-source ~/.zsh-history-substring-search.zsh
 source ~/.antigen/bundles/robbyrussell/oh-my-zsh/lib/git.zsh
+source ~/.zsh-history-substring-search.zsh
 
 # update colors
 eval $(dircolors -b)
@@ -30,24 +54,16 @@ alias ls="ls --color=auto"
 
 eval "$(starship init zsh)"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 export RUSTUP_DIST_SERVER="https://rsproxy.cn"
 export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 
 eval "$(atuin init zsh --disable-up-arrow)"
-source /usr/share/nvm/init-nvm.sh
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/opt/python@3.11/libexec/bin:$PATH
-
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 autoload -U compinit; compinit
 
 
-[ -f "$HOME/.bytebm/config/config.sh" ] && . "$HOME/.bytebm/config/config.sh"
 
 # pnpm
 export PNPM_HOME="/Users/zekin/Library/pnpm"
@@ -57,7 +73,7 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-    
+
 # ByteDance
 check_bytedance() {
     # 检查是否是 macOS 系统
@@ -73,19 +89,13 @@ check_bytedance() {
     fi
 }
 
-check_bytedance
+if [ check_bytedance ]; then
+    echo "We Are In ByteDance!"
+    [ -f "$HOME/.bytebm/config/config.sh" ] && . "$HOME/.bytebm/config/config.sh"
+fi
 # ByteDance End
 
-export EDITOR=nvim
-export GOPATH=$HOME/go
-export PATH=$PATH:/opt/homebrew/bin
-export PATH=$PATH:$HOME/.cargo/bin
-export PATH=$PATH:$HOME/go/bin
-export PATH=$PATH:$HOME/.local/bin
-#export RUSTUP_DIST_SERVER="https://rsproxy.cn"
-#export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
-export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
-export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
-export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-export HOMEBREW_PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+HOMEBREW_COMMAND_NOT_FOUND_HANDLER="$(brew --repository)/Library/Homebrew/command-not-found/handler.sh"
+if [ -f "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER" ]; then
+  source "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER";
+fi
