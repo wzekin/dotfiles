@@ -308,8 +308,12 @@ _history-substring-search-begin() {
     # (R) returns values in reverse older, so the index of the youngest
     # matching history entry is at the head of the list.
     #
-    local atuin_result=$(atuin search --search-mode "prefix" --format "{command}" $_history_substring_search_query)
-    _history_substring_search_matches=(${(aOf)atuin_result})
+    local delim=$'@@@\n'
+    local atuin_result=$(atuin search --search-mode "prefix" --format "{command}@@@" $_history_substring_search_query)
+    _history_substring_search_matches=(${(aOps.$delim.)atuin_result})
+
+    # 第一个由于没有下一个元素了，要去除
+    _history_substring_search_matches[1]=${_history_substring_search_matches[1]%@@@}
     
   fi
 
@@ -545,6 +549,7 @@ _history-substring-search-found() {
   #    to highlight the current buffer.
   #
   # BUFFER=$history[$_history_substring_search_matches[$_history_substring_search_match_index]]
+  
   BUFFER=$_history_substring_search_matches[$_history_substring_search_match_index]
   _history_substring_search_query_highlight=$HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND
 }
