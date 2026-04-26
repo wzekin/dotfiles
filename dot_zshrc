@@ -1,6 +1,7 @@
 # zvm
 function zvm_after_init() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  eval "$(atuin init zsh)"
 }
 # zvm end
 
@@ -35,9 +36,6 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 alias ls="ls --color=auto"
 
 eval "$(starship init zsh)"
-
-
-eval "$(atuin init zsh --disable-up-arrow)"
 autoload -U compinit; compinit
 
 
