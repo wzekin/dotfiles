@@ -8,4 +8,8 @@ brew install starship zoxide fzf uutils-coreutils git atuin
 {{ else if eq .chezmoi.osRelease.id "arch" -}}
 #!/bin/sh
 sudo pacman -Sy starship zoxide fzf git atuin --noconfirm
+{{ else if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+brew install starship zoxide fzf uutils-coreutils git atuin
+test -d /home/linuxbrew/.linuxbrew && /home/linuxbrew/.linuxbrew/opt/fzf/install --no-bash --all
 {{ end -}}
