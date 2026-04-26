@@ -1,0 +1,26 @@
+export EDITOR=nvim
+export GOPATH="$HOME/go"
+
+path=(
+  "$path[@]"
+  /opt/homebrew/bin
+  "$HOME/.cargo/bin"
+  "$HOME/go/bin"
+  "$HOME/.local/bin"
+  /opt/homebrew/opt/python@3.11/libexec/bin
+)
+export PATH
+
+export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+
+export ZVM_VI_ESCAPE_BINDKEY=jk
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
+
+export PNPM_HOME="$HOME/Library/pnpm"
+path=("$PNPM_HOME" "$path[@]")
+export PATH
