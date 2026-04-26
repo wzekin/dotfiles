@@ -2,6 +2,12 @@
 function zvm_after_init() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
   eval "$(atuin init zsh)"
+  eval "$(starship init zsh)"
+  eval "$(direnv hook zsh)"
+
+# gvm
+  [[ -s "/Users/zekin/.gvm/scripts/gvm" ]] && source "/Users/zekin/.gvm/scripts/gvm"
+# gvm end
 }
 # zvm end
 
@@ -25,49 +31,19 @@ antigen apply
 
 source ~/.antigen/bundles/robbyrussell/oh-my-zsh/lib/git.zsh
 
-# update colors
-eval $(dircolors -b)
-export ZLSCOLORS="${LS_COLORS}"
-zmodload zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+alias find='fd'
+alias cat='bat'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias tree='lsd --tree'
+alias du='dust'
+alias ps='procs'
+alias jq='jaq'
+alias vim='nvim'
+alias vi='nvim'
 
-
-alias ls="ls --color=auto"
-
-eval "$(starship init zsh)"
 autoload -U compinit; compinit
 
-
-# ByteDance
-check_bytedance() {
-    # 检查是否是 macOS 系统
-    if [ "$(uname)" != "Darwin" ]; then
-        export IS_BYTEDANCE=0
-    fi
-
-    # 在 macOS 上检查 CA 证书
-    if security find-certificate -a | grep -q "ByteDance"; then
-        export IS_BYTEDANCE=1
-    else
-        export IS_BYTEDANCE=0
-    fi
-}
-
-if [ check_bytedance ]; then
-    echo "We Are In ByteDance!"
-    [ -f "$HOME/.bytebm/config/config.sh" ] && . "$HOME/.bytebm/config/config.sh"
-fi
-# ByteDance End
-
-# gvm
-[[ -s "/Users/zekin/.gvm/scripts/gvm" ]] && source "/Users/zekin/.gvm/scripts/gvm"
-# gvm end
-
-HOMEBREW_COMMAND_NOT_FOUND_HANDLER="$(brew --repository)/Library/Homebrew/command-not-found/handler.sh"
-if [ -f "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER" ]; then
-  source "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER";
-fi
 
 if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"

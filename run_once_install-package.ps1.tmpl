@@ -1,15 +1,15 @@
 {{ if eq .chezmoi.os "windows" -}}
-scoop install sudo starship zoxide nu go gcc rustup sed nodejs
+scoop install sudo starship zoxide nu go gcc rustup sed nodejs fd bat eza dust procs jaq lsd
 sudo New-Item -Force -Path $env:HOMEDRIVE$env:HOMEPATH\\AppData\\Local\\nvim -ItemType SymbolicLink -Value $env:HOMEDRIVE$env:HOMEPATH\\.config\\nvim
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
-brew install starship zoxide fzf uutils-coreutils git atuin
+brew install starship zoxide fzf uutils-coreutils git atuin fd bat eza dust procs jaq lsd
 /opt/homebrew/opt/fzf/install --no-bash --all
 {{ else if eq .chezmoi.osRelease.id "arch" -}}
 #!/bin/sh
-sudo pacman -Sy starship zoxide fzf git atuin --noconfirm
+sudo pacman -Sy starship zoxide fzf git atuin fd-find bat eza dust procs jaq lsd --noconfirm
 {{ else if eq .chezmoi.os "linux" -}}
 #!/bin/sh
-brew install starship zoxide fzf uutils-coreutils git atuin
+brew install starship zoxide fzf uutils-coreutils git atuin fd bat eza dust procs jaq lsd
 test -d /home/linuxbrew/.linuxbrew && /home/linuxbrew/.linuxbrew/opt/fzf/install --no-bash --all
 {{ end -}}
