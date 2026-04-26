@@ -1,3 +1,7 @@
+
+if [ -f "$HOME/.zshrc.local.pre" ]; then
+  source "$HOME/.zshrc.local.pre"
+fi
 # zvm
 function zvm_after_init() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -6,7 +10,7 @@ function zvm_after_init() {
   eval "$(direnv hook zsh)"
 
 # gvm
-  [[ -s "/Users/zekin/.gvm/scripts/gvm" ]] && source "/Users/zekin/.gvm/scripts/gvm"
+  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 # gvm end
 }
 # zvm end
